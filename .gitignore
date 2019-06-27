@@ -1,0 +1,5 @@
+# ignore the following files
+venv
+.idea
+
+purchase-analysis.iml
