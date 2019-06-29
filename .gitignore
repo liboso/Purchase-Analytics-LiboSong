@@ -2,4 +2,4 @@
 venv
 .idea
 
-purchase-analysis.iml
+*.iml

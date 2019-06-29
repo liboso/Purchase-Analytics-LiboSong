@@ -1,0 +1,85 @@
+import sys
+import csv
+
+
+def product_dept_map(products) -> dict:
+    """
+   Read products.csv into a map (key = product_id, value = department_id)
+   :return: a map
+   """
+    result={}
+    with open(products, 'r', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
+
+        # covert each row into a map entry (key = product_id, value = department_id)
+        # both key and value are int for easy to sort which is required for report generation.
+        for row in reader:
+            result.update({int(row['product_id']): int(row['department_id'])})
+
+    return result
+
+def main(args):
+    """
+    Expected args are csv paths in the order of: order, products and report
+    :param args:
+    :return:
+    """
+    # A simple error handling solution to ensure expected arguments are provided.
+    """
+    assert len(args) >=4, "Mismatched arguments. Please ensure orders, products and report path are provided."
+
+    orders = args[1]
+    products = args[2]
+    report = args[3]
+    """
+
+    orders = '../input/order_products.csv'
+    products = '../input/products.csv'
+    report = '../output/report.csv'
+
+    print(f'orders: {orders}, products: {products}, report: {report}')
+
+    prod_dept_map = product_dept_map(products)
+    result={}
+
+    print("Start to traverse order.")
+    with open(orders, 'r', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+
+            product_id = int(row['product_id'])
+            department_id = prod_dept_map.get(product_id, -1)
+
+            # First time order is 1 only if `reordered` is 0.
+            first_time_order = int(int(row['reordered']) == 0)
+
+            # default value is a tuple with value of (number of order, number of order of first time)
+            result.setdefault(department_id, (0, 0))
+            counters = result[department_id]
+            result.update({department_id: (counters[0] + 1, counters[1] + first_time_order)})
+
+    print("Traversing order finished.")
+
+    with open(report, 'w') as report_csv:
+        fieldnames = ['department_id', 'number_of_order', 'number_of_first_order', "percentage"]
+        writer = csv.DictWriter(report_csv, fieldnames=fieldnames)
+
+        writer.writeheader()
+        for department_id in sorted(result):
+            writer.writerow({
+                "department_id": department_id,
+                "number_of_order": result[department_id][0],
+                "number_of_first_order": result[department_id][1],
+                # to ensure 2 fixed decimal places as required by the test data.
+                "percentage": "{0:.2f}".format(round(result[department_id][1] / result[department_id][0], 2))
+            })
+
+    print("Report generated.")
+
+
+def entry_point():
+    raise SystemExit(main(sys.argv))
+
+
+if __name__ == '__main__':
+    entry_point()
