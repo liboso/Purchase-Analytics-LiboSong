@@ -1,4 +1,4 @@
-department_id,number_of_order,number_of_first_order,percentage
+department_id,number_of_orders,number_of_first_orders,percentage
 1,2208,1023,0.46
 2,39,21,0.54
 3,1225,436,0.36
