@@ -61,9 +61,7 @@ def main(args):
             department_id = prod_dept_map.get(product_id, -1)
 
             # First time order is 1 only if `reordered` is 0.
-            first_time_order = 0
-            if row['reordered'].strip() == "0":
-                first_time_order = 1
+            first_time_order = int(row['reordered'].strip() == "0")
 
             # default value is a tuple with value of (number of order, number of order of first time)
             result.setdefault(department_id, (0, 0))
@@ -83,7 +81,7 @@ def main(args):
                 "number_of_orders": result[department_id][0],
                 "number_of_first_orders": result[department_id][1],
                 # to ensure 2 fixed decimal places as required by the test data.
-                "percentage": "{0:.2f}".format(round(result[department_id][1] / result[department_id][0], 2))
+                "percentage": "{0:.2f}".format(round((result[department_id][1]+0.0) / result[department_id][0], 2))
             })
 
     print("Report generated.")
