@@ -2,7 +2,7 @@ import sys
 import csv
 
 
-def parse_department_id_int(val) -> int:
+def parse_department_id_int(val):
     """
     parses the string department_id to an integer;
     If the entered value is invalid then return -1; so all records under department_id = -1 might need to be cleaned up.
@@ -14,7 +14,7 @@ def parse_department_id_int(val) -> int:
         return -1
 
 
-def product_dept_map(products) -> dict:
+def product_dept_map(products):
     """
     Read products.csv into a dictionary (key = product_id, value = department_id)
     :return: a dictionary
@@ -45,7 +45,8 @@ def main(args):
     products = args[2]
     report = args[3]
 
-    print(f'orders: {orders}, products: {products}, report: {report}')
+    # print(f'orders: {orders}, products: {products}, report: {report}')
+    print("orders: {0}, products: {1}, report: {2}".format(orders, products, report))
 
     prod_dept_map = product_dept_map(products)
     result = {}
