@@ -21,8 +21,7 @@ def product_dept_map(products):
     """
     result = {}
 
-    # To run this program in Windows, encoding='utf-8' is required to avoid 'UnicodeDecodeError'
-    with open(products, 'r', encoding='utf-8') as csvfile:
+    with open(products, 'r') as csvfile:
         reader = csv.DictReader(csvfile)
 
         # covert each row into a dictionary entry (key = product_id, value = department_id)
@@ -45,7 +44,6 @@ def main(args):
     products = args[2]
     report = args[3]
 
-    # print(f'orders: {orders}, products: {products}, report: {report}')
     print("orders: {0}, products: {1}, report: {2}".format(orders, products, report))
 
     prod_dept_map = product_dept_map(products)
@@ -53,8 +51,7 @@ def main(args):
 
     print("Start to traverse order.")
 
-    # To run this program in Windows, encoding='utf-8' is required to avoid 'UnicodeDecodeError'
-    with open(orders, 'r', encoding='utf-8') as csvfile:
+    with open(orders, 'r') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             product_id = row['product_id'].strip()
