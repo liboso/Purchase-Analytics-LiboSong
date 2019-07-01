@@ -33,7 +33,7 @@ def product_dept_map(products):
 
 def main(args):
     """
-    Expected args are csv paths in the order of: order, products and report
+    Expected args are csv paths in the order of: orders, products and report
     :param args:
     :return:
     """
@@ -56,7 +56,7 @@ def main(args):
         for row in reader:
             product_id = row['product_id'].strip()
 
-            # If a department_id cannot be found the set department = -1;
+            # If a department_id cannot be found then set department = -1;
             # so all records "department_id = -1" might need to be cleaned up.
             department_id = prod_dept_map.get(product_id, -1)
 
